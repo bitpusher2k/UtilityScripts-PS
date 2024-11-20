@@ -14,7 +14,7 @@
 
 ## By Bitpusher/The Digital Fox
 
-## v1.0 last updated 2024-XX
+## v1.0 last updated 2024-11
 
 ### Scripts provided as-is. Use at your own risk. No guarantees or warranty provided.
 
