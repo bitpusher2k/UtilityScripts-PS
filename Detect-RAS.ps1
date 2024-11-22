@@ -394,7 +394,7 @@ begin {
         [pscustomobject]@{ Name = "LiteManager Pro"; DisplayName = "LiteManager Pro - Server"; ProcessName = "ROMServer", "ROMFUSClient"; IndicatorFilename = "ROMFUSClient.exe", "ROMServer.exe" }
         [PSCustomObject]@{ Name = "LiteManager"; DisplayName = "LiteManager"; ProcessName = "lmnoipserver"; IndicatorFilename = "lmnoipserver.exe", "ROMFUSClient.exe", "romfusclient.exe", "romviewer.exe", "romserver.exe", "ROMServer.exe" }
         [PSCustomObject]@{ Name = "LogMeIn rescue"; DisplayName = "LogMeIn rescue"; ProcessName = "support-logmeinrescue", "lmi_rescue"; IndicatorFilename = "support-logmeinrescue.exe", "lmi_rescue.exe" }
-                [pscustomobject]@{ Name = "LogMeIn"; DisplayName = "LogMeIn"; ProcessName = "LogMeIn", "lmiguardiansvc"; IndicatorFilename = "LogMeIn.exe", "LogMeInSystray.exe", "support-logmeinrescue.exe", "lmiguardiansvc.exe" }
+        [pscustomobject]@{ Name = "LogMeIn"; DisplayName = "LogMeIn"; ProcessName = "LogMeIn", "lmiguardiansvc"; IndicatorFilename = "LogMeIn.exe", "LogMeInSystray.exe", "support-logmeinrescue.exe", "lmiguardiansvc.exe" }
         [PSCustomObject]@{ Name = "Manage Engine (Desktop Central)"; DisplayName = "ManageEngine"; ProcessName = "dcagentservice"; IndicatorFilename = "dcagentservice.exe", "dcagentregister.exe", "ManageEngine_Remote_Access_Plus.exe" }
         [pscustomobject]@{ Name = "ManageEngine"; DisplayName = "ManageEngine Remote Access Plus - Server", "ManageEngine UEMS - Agent"; ProcessName = "dcagenttrayicon", "UEMS"; IndicatorFilename = "dcagenttrayicon.exe", "UEMS.exe" }
         [PSCustomObject]@{ Name = "MEGAsync"; DisplayName = "MEGAsync"; ProcessName = "MEGAupdater"; IndicatorFilename = "MEGAsyncSetup64.exe", "MEGAupdater.exe" }
