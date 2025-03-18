@@ -1,4 +1,4 @@
-#           Bitpusher
+﻿#           Bitpusher
 #            \`._,'/
 #            (_- -_)
 #              \o/
@@ -18,7 +18,7 @@
 # review and resetting of AD account passwords during a security incident.
 #
 # Usage:
-# powershell -executionpolicy bypass -f .\GenerateTepmPassForAdList.ps1 -InputPath "Path\to\input\log.csv" -OutputPath "Path\to\output\file.csv" 
+# powershell -executionpolicy bypass -f .\GenerateTepmPassForAdList.ps1 -InputPath "Path\to\input\log.csv" -OutputPath "Path\to\output\file.csv"
 #
 # powershell -executionpolicy bypass -f .\GenerateTepmPassForAdList.ps1
 #
@@ -32,8 +32,8 @@
 
 #Requires -Version 4
 
-param (
-    [string]$InputPath = $(Get-ChildItem c:\temp -filter "*account_report_before_reset*.csv" | Sort-Object -descending | Select-Object -first 1),
+param(
+    [string]$InputPath = $(Get-ChildItem c:\temp -Filter "*account_report_before_reset*.csv" | Sort-Object -Descending | Select-Object -First 1),
     [string]$OutputPath = 'c:\temp\temppasswords.csv',
     [string]$NewColumnName = "NewPassword"
 )
@@ -78,7 +78,7 @@ function Get-RandomPass {
 
 # Process CSV file adding column of random passwords
 function Add-NewPassToCSV {
-    param (
+    param(
         [string]$InputPath,
         [string]$OutputPath,
         [string]$NewColumnName
@@ -94,9 +94,9 @@ function Add-NewPassToCSV {
         # Read the CSV file
         Write-Output "`nInput file found. Loading for processing..."
         $csv = Import-Csv -Path $InputPath
-        $csv = $csv | Where-Object {$_.SamAccountName}
+        $csv = $csv | Where-Object { $_.SamAccountName }
         Write-Output "$($csv.length) total user accounts."
-        $csv = $csv | Where-Object {$_.Enabled -eq 'True'}
+        $csv = $csv | Where-Object { $_.Enabled -eq 'True' }
         Write-Output "$($csv.length) enabled user accounts."
 
         # List of account names to SKIP creating a temporary password for and resetting in bulk
@@ -118,7 +118,7 @@ function Add-NewPassToCSV {
 
         # Export to a new CSV file
         $csv | Select-Object SamAccountName, NewPassword | Export-Csv -Path $OutputPath -NoTypeInformation
-        
+
         Write-Output "`nSuccessfully processed CSV file. Output saved to: $OutputPath"
         Write-Output "`nTemporary password file written."
         Write-Output "`nUsernames in file:"
@@ -144,7 +144,7 @@ function Add-NewPassToCSV {
     }
 }
 
-Add-NewPassToCSV $InputPath $OutputPath $NewColumnName
+Add-NewPassToCSV -InputPath $InputPath -OutputPath $OutputPath -NewColumnName $NewColumnName
 
 
 # Minified bare-bones one-liner version of script for copy/paste into console (requires internet access for random wordlist retrieval):

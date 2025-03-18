@@ -1,4 +1,4 @@
-#           Bitpusher
+﻿#           Bitpusher
 #            \`._,'/
 #            (_- -_)
 #              \o/
@@ -65,7 +65,7 @@
 
 #Requires -Version 4
 
-param (
+param(
     [string]$Report = "Before",
     [string]$OutputPath = 'c:\temp'
 )
@@ -108,10 +108,10 @@ $AdUserProperties = @(
     "HomeDrive"
 )
 
-$AdInfo = Get-ADUser -filter * -properties $AdUserProperties
+$AdInfo = Get-ADUser -Filter * -properties $AdUserProperties
 
 # Create report columns, adding ISO 8601 time columns and looking up account group membership
-$AdReport = $AdInfo | 
+$AdReport = $AdInfo |
     Select-Object Name,
     GivenName,
     Surname,
@@ -120,48 +120,48 @@ $AdReport = $AdInfo |
     Enabled,
     PasswordExpired,
     PasswordLastSet,
-    @{Name="passwordlastsetISO"; Expression={($_.passwordlastset).ToString("o")}},
+    @{ Name = "passwordlastsetISO"; Expression = { ($_.passwordlastset).ToString("o") } },
     PasswordNeverExpires,
     CannotChangePassword,
     Created,
-    @{Name="CreatedISO"; Expression={($_.Created).ToString("o")}},
+    @{ Name = "CreatedISO"; Expression = { ($_.Created).ToString("o") } },
     WhenChanged,
     WhenCreated,
     accountExpires,
-    @{Name = 'AccountExpirationDate'; Expression = {if ($_.accountExpires -gt 0 -and $_.accountExpires -ne 9223372036854775807) { ([datetime]::FromFileTime($_.accountExpires)).ToString("o") } else { 'Never Expires' } }},
+    @{ Name = 'AccountExpirationDate'; Expression = { if ($_.accountExpires -gt 0 -and $_.accountExpires -ne 9223372036854775807) { ([datetime]::FromFileTime($_.accountExpires)).ToString("o") } else { 'Never Expires' } } },
     LastBadPasswordAttempt,
-    @{Name="LastBadPasswordAttemptISO"; Expression={($_.LastBadPasswordAttempt).ToString("o")}},
+    @{ Name = "LastBadPasswordAttemptISO"; Expression = { ($_.LastBadPasswordAttempt).ToString("o") } },
     badPasswordTime,
     badPwdCount,
     LockedOut,
     lockoutTime,
     LastLogonDate,
-    @{Name="LastLogonDateISO"; Expression={($_.LastLogonDate).ToString("o")}},
+    @{ Name = "LastLogonDateISO"; Expression = { ($_.LastLogonDate).ToString("o") } },
     LogonCount,
     LastLogonTimeStamp,
-    @{Name="LastLogonOver30DaysAgo"; Expression={$_.LastLogonDate -lt (Get-Date).AddDays(-30)}},
+    @{ Name = "LastLogonOver30DaysAgo"; Expression = { $_.LastLogonDate -lt (Get-Date).AddDays(-30) } },
     Description,
     HomeDirectory,
     HomeDrive,
     TrustedForDelegation,
     TrustedToAuthForDelegation,
-    @{Name="MemberOf"; Expression={($_.memberof | Get-ADGroup | Select-Object -expandproperty name | Sort-Object) -join ", "}}
+    @{ Name = "MemberOf"; Expression = { ($_.memberof | Get-ADGroup | Select-Object -ExpandProperty name | Sort-Object) -join ", " } }
 
 # Get domain password policy to append at end of report
 $AdPwPolicy = Get-ADDefaultDomainPasswordPolicy
 
-$TempPasswordsGenerated = $(Get-ChildItem c:\temp -filter "temppasswords.csv")
+$TempPasswordsGenerated = $(Get-ChildItem c:\temp -Filter "temppasswords.csv")
 
 if ($Report -eq "After" -or $TempPasswordsGenerated.LastWriteTime -gt (Get-Date).AddHours(-1)) {
     $OutputFile = $OutputPath + "\$($env:computername)_account_report_after_reset-$($(Get-Date).ToString("yyyyMMddhhmm")).csv"
-    $AdReport | Export-csv $OutputFile -NoTypeInformation -Encoding utf8
-    $AdPwPolicy | Out-File -FilePath $OutputFile -append
+    $AdReport | Export-Csv $OutputFile -NoTypeInformation -Encoding utf8
+    $AdPwPolicy | Out-File -FilePath $OutputFile -Append
     Write-Output "`nReport generated and saved to: $OutputFile"
     Write-Output "Be sure to remove temporary password list from server and review account report."
 } else {
     $OutputFile = $OutputPath + "\$($env:computername)_account_report_before_reset-$($(Get-Date).ToString("yyyyMMddhhmm")).csv"
-    $AdReport | Export-csv $OutputFile -NoTypeInformation -Encoding utf8
-    $AdPwPolicy | Out-File -FilePath $OutputFile -append
+    $AdReport | Export-Csv $OutputFile -NoTypeInformation -Encoding utf8
+    $AdPwPolicy | Out-File -FilePath $OutputFile -Append
     Write-Output "`nReport generated and saved to: $OutputFile"
     Write-Output "Run GenerateTepmPassForAdList.ps1 to create account name and temporary password list for bulk reset."
 }
