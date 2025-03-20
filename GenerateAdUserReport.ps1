@@ -52,10 +52,10 @@
 # which contains the "SamAccountName" of each user and a NewPassword column
 # containing a new temporary passwords to facilitate bulk reset of account passwords.
 #
-# Usage:
-# powershell -executionpolicy bypass -f .\GenerateAdUserReport.ps1 -Report "Before" -OutputPath "C:\temp"
-#
+# Usage examples:
 # powershell -executionpolicy bypass -f .\GenerateAdUserReport.ps1
+#
+# powershell -executionpolicy bypass -f .\GenerateAdUserReport.ps1 -Report "Before" -OutputPath "C:\temp"
 #
 # Use simplified and minified one-liner versions at the bottom to easily
 # copy/paste into console of remote system (remote tools don't generally handle
