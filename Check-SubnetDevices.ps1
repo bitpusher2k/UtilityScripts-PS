@@ -77,7 +77,7 @@ process {
         if ($Utc -eq $true) {
             $dt = $dt.ToUniversalTime()
         }
-        $str = "{0:MM/dd/yy} {0:HH:mm:ss}" -f $dt
+        $str = "{0:yyyy-MM-dd} {0:HH:mm:ss}" -f $dt
 
         if ($NoWrap -ne $true) {
             $str = "[$str]"
