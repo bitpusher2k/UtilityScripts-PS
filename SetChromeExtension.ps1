@@ -1216,7 +1216,7 @@ if ($($BlockList.ID | Measure-Object).Count -eq 0) {
 
 if ($Report) {
     Write-Output "`nSaving report of all machine-wide extension lists in registry..." | Tee-Object -FilePath $logFilePath -Append
-    $Output = "C:\temp\$($env:computername)-RegistryExtensionPolicyLists-$($(Get-Date).ToString('yyyyMMddhhmm')).txt"
+    $Output = "C:\temp\$($env:computername)-RegistryExtensionPolicyLists-$($(Get-Date).ToString('yyyyMMddHHmm')).txt"
     Write-Output "`nMachine-wide Chrome force-install extension list:" | Out-File -FilePath $Output -Append
     $ForceListChrome | Out-File -FilePath $Output -Append
     Write-Output "`nMachine-wide Chrome allowed extension list:" | Out-File -FilePath $Output -Append

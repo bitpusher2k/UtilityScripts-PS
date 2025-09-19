@@ -29,7 +29,7 @@
 
 param(
     [string]$inputFile,
-    [string]$outputFile = "script-$($(Get-Date).ToString("yyyyMMddhhmm"))",
+    [string]$outputFile = "script-$($(Get-Date).ToString("yyyyMMddHHmm"))",
     [string]$scriptName = "Encode-Script",
     [string]$Priority = "Normal",
     [int]$RandMax = "500",
