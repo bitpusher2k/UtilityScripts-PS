@@ -43,9 +43,9 @@ function Get-RandomWord {
     if (!$script:RandomWords) {
         # Get random wordlist from online dictionary API
         try {
-            $script:RandomWords = Invoke-RestMethod -Uri 'https://random-word-api.herokuapp.com/word?length=7&number=100' -Method Get
-            $script:RandomWords += Invoke-RestMethod -Uri 'https://random-word-api.herokuapp.com/word?length=6&number=100' -Method Get
-            $script:RandomWords += Invoke-RestMethod -Uri 'https://random-word-api.herokuapp.com/word?length=5&number=100' -Method Get
+            $script:RandomWords = Invoke-RestMethod -Uri 'https://random-word-api.vercel.app/api?words=200&length=7&alphabetize=true' -Method Get
+            $script:RandomWords += Invoke-RestMethod -Uri 'https://random-word-api.vercel.app/api?words=200&length=6&alphabetize=true' -Method Get
+            $script:RandomWords += Invoke-RestMethod -Uri 'https://random-word-api.vercel.app/api?words=200&length=5&alphabetize=true' -Method Get
         } catch {
             # Fallback to random characters if word retrieval fails
             $script:RandomWords = [System.Collections.ArrayList]@()
@@ -149,7 +149,7 @@ Add-NewPassToCSV -InputPath $InputPath -OutputPath $OutputPath -NewColumnName $N
 
 # Minified bare-bones one-liner version of script for copy/paste into console (requires internet access for random wordlist retrieval):
 $OneLinerWords = @'
-$InPath = $(gci c:\temp -filter "*account_report_before_reset*.csv" | sort -descending | select -first 1) ; $OutPath = 'c:\temp\temppasswords.csv' ; $url = 'https://random-word-api.herokuapp.com/word?number=100' ; $words = $(irm -Uri "$url&length=7") + $(irm -Uri "$url&length=6") + $(irm -Uri "$url&length=5") ; function Get-Word { $word = $words | Get-Random ; return $word } ; function Get-Pass { $first = Get-Word ; $second = Get-Word ; $third = Get-Random -Minimum 10 -Maximum 99 ; return "$first-$second-$third" } ; $Regex = '^administrator$|^adsync$|^aad_|^msol_' ; $csv = ipcsv -Path $InPath ; $csv = $csv | ? {$_.SamAccountName -and $_.Enabled -eq 'True' -and $_.SamAccountName -notmatch $Regex} ; $csv | % { $_ | Add-Member -NotePropertyName 'NewPassword' -NotePropertyValue (Get-Pass) } ; $csv | Select SamAccountName, NewPassword | epcsv -Path $OutPath -NTI
+$InPath = $(gci c:\temp -filter "*account_report_before_reset*.csv" | sort -descending | select -first 1) ; $OutPath = 'c:\temp\temppasswords.csv' ; $url = 'https://random-word-api.vercel.app/' ; $words = $(irm -Uri "$($url)api?words=200&length=7&alphabetize=true") + $(irm -Uri "$($url)api?words=200&length=6&alphabetize=true") + $(irm -Uri "$($url)api?words=200&length=5&alphabetize=true") ; function Get-Word { $word = $words | Get-Random ; return $word } ; function Get-Pass { $first = Get-Word ; $second = Get-Word ; $third = Get-Random -Minimum 10 -Maximum 99 ; return "$first-$second-$third" } ; $Regex = '^administrator$|^adsync$|^aad_|^msol_' ; $csv = ipcsv -Path $InPath ; $csv = $csv | ? {$_.SamAccountName -and $_.Enabled -eq 'True' -and $_.SamAccountName -notmatch $Regex} ; $csv | % { $_ | Add-Member -NotePropertyName 'NewPassword' -NotePropertyValue (Get-Pass) } ; $csv | Select SamAccountName, NewPassword | epcsv -Path $OutPath -NTI
 '@
 # Version using random character passwords (does not require internet access):
 $OneLinerChars = @'
@@ -159,3 +159,5 @@ $InPath = $(gci c:\temp -filter "*account_report_before_reset*.csv" | sort -desc
 $OneLinerResetUsingFile = @'
 Import-Csv c:\temp\temppasswords.csv -Delimiter "," | Foreach { $NewPassword = ConvertTo-SecureString -AsPlainText $_.NewPassword -Force ; Set-ADAccountPassword -Identity $_.SAMAccountName -NewPassword $NewPassword -Reset -PassThru | Set-ADUser -ChangePasswordAtLogon $false }
 '@
+# Alternate (backupP random word APIs:
+# https://random-word-api.herokuapp.com/word?number=200&length=7
