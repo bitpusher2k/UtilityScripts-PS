@@ -9,7 +9,7 @@
 # https://github.com/bitpusher2k
 #
 # GenerateTepmPassForAdList.ps1 - By Bitpusher/The Digital Fox
-# v1.9 last updated 2025-03-15
+# v1.9.1 last updated 2025-09-24
 # Processes an exported CSV report of AD users containing at least the columns
 # "SamAccountName" and "PasswordLastSet". Generate a random temporary password
 # for each enabled account, skipping some known administrative accounts that
