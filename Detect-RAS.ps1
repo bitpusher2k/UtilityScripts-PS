@@ -610,6 +610,8 @@ end {
             $destFolder = "LogStore:\"
             Copy-Item -LiteralPath "$logFilePath" -Destination "$destFolder" -Force -ErrorAction Continue -ErrorVariable ErrorOutput
             Remove-PSDrive -Name LogStore
+        } elseif ($shareLocation -ne "") {
+            Copy-Item -LiteralPath $LogFilePath -Destination $ShareLocation  -Force -ErrorAction Continue
         }
     }
     Set-PSDebug -Trace 0
